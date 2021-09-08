@@ -31,19 +31,19 @@ Write this `flake.nix` file.
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.05";
   inputs.flake-utils.url = "github:numtide/flake-utils";
-  inputs.zenn-cli.url = "github:hnakano863/nix-zenn-cli";
+  inputs.zenn.url = "github:hnakano863/nix-zenn-cli";
 
-  outputs = { self, nixpkgs, flake-utils, zenn-cli }:
+  outputs = { self, nixpkgs, flake-utils, zenn }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ zenn-cli.overlay ];
+          overlays = [ zenn.overlay ];
         };
       in
         {
           devShell = with pkgs; mkShell {
-            buildInputs = [ zenn-cli ];
+            buildInputs = [ zenn."${system}" ];
           };
         }
     );
