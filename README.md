@@ -4,7 +4,8 @@ zenn-cli for NixOS user.
 ## quick start
 
 ```console
-$ nix run github:hnakano863/nix-zenn-cli
+$ nix run github:hnakano863/nix-zenn-cli -- --version
+0.1.95
 ```
 
 ## using flake registry
@@ -18,10 +19,13 @@ $ nix registry add zenn github:hnakano863/nix-zenn-cli
 then, you can run by
 
 ```console
-$ nix run zenn
+$ nix run zenn -- --version
+0.1.95
 ```
 
 ## overlay
+
+Write this `flake.nix` file.
 
 ```nix flake.nix
 {
@@ -31,24 +35,26 @@ $ nix run zenn
 
   outputs = { self, nixpkgs, flake-utils, zenn-cli }:
     flake-utils.lib.eachDefaultSystem (system:
-	  let
-	    pkgs = import nixpkgs {
-		  inherit system;
-		  overlays = [ zenn-cli.overlay ];
-	    }
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ zenn-cli.overlay ];
+        };
       in
-	    {
-		  devShell = with pkgs; mkShell {
-		    buildInputs = [ zenn-cli ];
-		  };
-	    }
-	);
+        {
+          devShell = with pkgs; mkShell {
+            buildInputs = [ zenn-cli ];
+          };
+        }
+    );
+}
 ```
 
 then,
 
 ```console
-$ nix shell
+$ nix develop
 
-$ zenn
+$ zenn --version
+0.1.95
 ```
