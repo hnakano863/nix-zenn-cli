@@ -43,7 +43,7 @@ Write this `flake.nix` file.
       in
         {
           devShell = with pkgs; mkShell {
-            buildInputs = [ zenn."${system}" ];
+            buildInputs = [ zenn-cli."${system}" ];
           };
         }
     );
